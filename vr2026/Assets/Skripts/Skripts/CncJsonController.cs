@@ -4,16 +4,22 @@ using System.Globalization;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 public class JSonData : MonoBehaviour
 {
     public string url = "https://cnc.kovalev.team/get/3";
     public int channel = 1;
     public float interval = 1f;
+    
+    [Header("Узлы станка")]
     public Transform nodeX;
     public Transform nodeY;
     public Transform nodeZ;
     
+    [Header("Связь с панелью")]
+    public TMP_Text panel; 
+
     private Vector3 startX;
     private Vector3 startY;
     private Vector3 startZ;
@@ -30,7 +36,6 @@ public class JSonData : MonoBehaviour
         startY = nodeY.localPosition;
         startZ = nodeZ.localPosition;
 
-        // Цикл опроса сервера перенесен внутрь Start() (корутины)
         while (true)
         {
             using (UnityWebRequest request = UnityWebRequest.Get(url))
@@ -73,10 +78,6 @@ public class JSonData : MonoBehaviour
                     string text = ((string)row[1]).Replace("мм", "").Trim();
                     text = text.Replace(',', '.');
                     float value = float.Parse(text, CultureInfo.InvariantCulture);
-
-                    if (float.IsNaN(value) || float.IsInfinity(value))
-                        throw new FormatException("Некорректная координата " + axis);
-
                     return value;
                 }
             }
@@ -87,12 +88,22 @@ public class JSonData : MonoBehaviour
     private void MoveNodes(string json)
     {
         JObject data = JObject.Parse(json);
-        float x = GetCoordinate(data, "X") * 0.001f;
-        float y = GetCoordinate(data, "Y") * 0.001f;
-        float z = GetCoordinate(data, "Z") * 0.001f;
+    float x = GetCoordinate(data, "X") * 0.01f;
+    float y = GetCoordinate(data, "Y") * 0.01f;
+    float z = GetCoordinate(data, "Z") * 0.01f;
 
         nodeX.localPosition = startX + Vector3.right * x;
         nodeY.localPosition = startY + Vector3.forward * y;
         nodeZ.localPosition = startZ + Vector3.up * z;
+
+        if (panel != null)
+        {
+            Debug.Log("Передаю в панель: " + x + ", " + y + ", " + z);
+            panel.text = x+"x "+y+"y "+z+"z "+channel;
+        }
+        else
+        {
+            Debug.LogError("ОШИБКА: Panel не привязан в инспекторе!");
+        }
     }
 }
