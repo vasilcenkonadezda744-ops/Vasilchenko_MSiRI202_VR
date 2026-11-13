@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1abd4be6c09c7e22987f270195213035
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 422420
+  packageName: Electric Motor - Low Poly PBR
+  packageVersion: 1.0
+  assetPath: Assets/DC_Motor/Prefabs/motor_BuiltIn.prefab
+  uploadId: 1031990

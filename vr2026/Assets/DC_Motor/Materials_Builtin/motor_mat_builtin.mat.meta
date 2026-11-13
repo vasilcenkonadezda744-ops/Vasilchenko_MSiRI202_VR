@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 377c4f272847c3549a8a1e17b009ebd7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 422420
+  packageName: Electric Motor - Low Poly PBR
+  packageVersion: 1.0
+  assetPath: Assets/DC_Motor/Materials_Builtin/motor_mat_builtin.mat
+  uploadId: 1031990
